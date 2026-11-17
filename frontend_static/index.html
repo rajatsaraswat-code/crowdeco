@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrowdEco | Predictive Crowd Management & Early-Warning Bottleneck Engine</title>
+  
+  <!-- Inter & JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap">
+
+  <!-- Font Awesome 6 CDN for Reliable Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            radar: { 50: '#e6f8fb', 500: '#06b6d4', 900: '#083344' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js CDN for Dynamic Analytics -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+  <!-- Custom Tactical Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="min-h-screen bg-[#070b14] text-slate-100 antialiased selection:bg-cyan-500 selection:text-white font-sans">
+
+  <!-- ================= TOP TACTICAL NAVIGATION HEADER ================= -->
+  <header class="border-b border-slate-800/80 bg-[#0b101c]/95 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center space-x-3.5">
+        <div class="relative flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-700 shadow-lg shadow-cyan-500/20">
+          <svg class="w-6 h-6 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0a2 2 0 100-4 2 2 0 000 4zm0 0v5a2 2 0 01-2 2H8a2 2 0 01-2-2v-5m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div class="absolute inset-0 rounded-xl border border-cyan-300/40"></div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
+              Crowd<span class="text-cyan-400">Eco</span>
+            </h1>
+            <span class="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-cyan-400">
+              v2.4 PRO
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 font-medium">
+            Predictive Crowd Dynamics & Kinetic Bottleneck Warning Engine
+          </p>
+        </div>
+      </div>
+
+      <!-- Operational Status Indicators -->
+      <div class="flex items-center gap-3">
+        
+        <!-- Global Risk Assessment Pill -->
+        <div id="statusPill" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-semibold bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+          <svg class="w-3.5 h-3.5 text-emerald-400 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span>ALL ZONES NORMAL</span>
+          <span class="text-slate-400">|</span>
+          <span>Peak CRI: <span id="peakCriSpan">0.0%</span></span>
+        </div>
+
+        <!-- Live Attendees Counter -->
+        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
+          <svg class="w-3.5 h-3.5 text-cyan-400 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <span class="text-slate-300">Live Attendees:</span>
+          <span id="totalAttendeesSpan" class="font-mono font-bold text-white">240</span>
+        </div>
+
+        <!-- WebSocket / Engine Link -->
+        <div id="wsStatusSpan" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs font-mono text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span> STANDALONE SIM
+        </div>
+
+        <!-- Audio Alarm Toggle -->
+        <button id="soundToggleBtn" onclick="toggleSound()" class="px-2.5 py-1.5 rounded-lg border bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 text-xs font-semibold transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-slate-400 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+          <span>Sound: OFF</span>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Navigation Sub-bar -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between border-t border-slate-800/50 py-2">
+      <div class="flex space-x-1.5">
+        <button id="btnTab_dashboard" onclick="switchTab('dashboard')" class="nav-tab-btn px-3 py-1 text-xs font-medium rounded-md transition-all bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+          Operations Dashboard
+        </button>
+        <button id="btnTab_analytics" onclick="switchTab('analytics')" class="nav-tab-btn px-3 py-1 text-xs font-medium rounded-md transition-all text-slate-400 hover:text-slate-200">
+          Predictive Analytics & Charts
+        </button>
+        <button id="btnTab_alerts" onclick="switchTab('alerts')" class="nav-tab-btn px-3 py-1 text-xs font-medium rounded-md transition-all text-slate-400 hover:text-slate-200">
+          Alert Incident Log
+        </button>
+        <button id="btnTab_simulation" onclick="switchTab('simulation')" class="nav-tab-btn px-3 py-1 text-xs font-medium rounded-md transition-all text-slate-400 hover:text-slate-200">
+          Simulation & Injection Controls
+        </button>
+      </div>
+
+      <div class="hidden lg:flex items-center gap-1.5 text-xs text-slate-400">
+        <span class="text-cyan-400 font-bold">&bull;</span>
+        <span>Active Scenario:</span>
+        <span id="activeScenarioSpan" class="font-semibold text-slate-200 uppercase tracking-wider bg-slate-900 px-2 py-0.5 rounded border border-slate-800 font-mono">
+          NORMAL EVENT FLOW
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN BODY CONTENT ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
+    
+    <!-- Proactive Alert Banner Container -->
+    <div id="alertBannerContainer" class="hidden mb-6"></div>
+
+    <!-- TAB 1: OPERATIONS DASHBOARD -->
+    <div id="tab_dashboard" class="tab-content space-y-6">
+      
+      <!-- Multi-Zone Interactive Grid Cards -->
+      <div id="zoneCardsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"></div>
+
+      <!-- Live Feed Visualizer Canvas -->
+      <div class="relative rounded-xl border border-slate-800/90 bg-[#070b14] overflow-hidden shadow-2xl">
+        
+        <!-- Visualizer Toolbar -->
+        <div class="px-4 py-2.5 bg-slate-900/90 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span class="text-xs font-bold text-white uppercase tracking-wider">
+              Multi-Zone Visualizer & Movement Vector Engine
+            </span>
+          </div>
+
+          <!-- View Modes -->
+          <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs">
+            <button onclick="setViewMode('cctv')" data-mode="cctv" class="mode-btn px-2.5 py-1 rounded transition bg-cyan-600 text-white font-bold">
+              CCTV Overlay
+            </button>
+            <button onclick="setViewMode('sensor')" data-mode="sensor" class="mode-btn px-2.5 py-1 rounded transition text-slate-400 hover:text-white">
+              Tactical Sensor
+            </button>
+            <button onclick="setViewMode('thermal')" data-mode="thermal" class="mode-btn px-2.5 py-1 rounded transition text-slate-400 hover:text-white">
+              Thermal Density
+            </button>
+          </div>
+
+          <!-- Layer Toggles -->
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <button id="btn_bbox" onclick="toggleOverlay('bbox')" class="px-2 py-1 rounded border transition bg-cyan-950/80 border-cyan-600 text-cyan-300">
+              Bounding Boxes
+            </button>
+            <button id="btn_vec" onclick="toggleOverlay('vec')" class="px-2 py-1 rounded border transition bg-cyan-950/80 border-cyan-600 text-cyan-300">
+              Velocity Vectors (v⃗)
+            </button>
+            <button id="btn_flow" onclick="toggleOverlay('flow')" class="px-2 py-1 rounded border transition bg-cyan-950/80 border-cyan-600 text-cyan-300">
+              Flow Field
+            </button>
+            <button id="btn_heat" onclick="toggleOverlay('heat')" class="px-2 py-1 rounded border transition bg-cyan-950/80 border-cyan-600 text-cyan-300">
+              Heatmap
+            </button>
+          </div>
+        </div>
+
+        <!-- 2D Canvas -->
+        <div class="relative aspect-[16/9] w-full max-h-[560px] bg-black flex items-center justify-center">
+          <canvas id="visualizerCanvas" width="1000" height="620" class="w-full h-full object-contain"></canvas>
+
+          <!-- Legend -->
+          <div class="absolute bottom-3 right-3 bg-slate-950/85 backdrop-blur p-2.5 rounded-lg border border-slate-800 text-[11px] font-mono space-y-1 shadow-lg pointer-events-none">
+            <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1">Tactical Map Legend</div>
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span><span class="text-slate-300">Normal Flow (v &lt; 3.0)</span></div>
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span><span class="text-slate-300">Surge Velocity / Rushing</span></div>
+            <div class="flex items-center gap-2"><span class="w-4 h-0.5 bg-rose-500"></span><span class="text-slate-300">Vector Flow Lines (v⃗)</span></div>
+            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded bg-rose-500/50 border border-rose-500"></span><span class="text-slate-300">CRI &gt; 85% Bottleneck</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Dynamic Charts Preview -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-4 shadow-xl">
+          <h3 class="text-sm font-bold text-white tracking-tight mb-3">Predictive Headcount Projections (T+30s & T+60s)</h3>
+          <div class="chart-container"><canvas id="chartForecastProjections"></canvas></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-4 shadow-xl">
+          <h3 class="text-sm font-bold text-white tracking-tight mb-3">Congestion Risk Index (CRI) with Safety Limit (85%)</h3>
+          <div class="chart-container"><canvas id="chartCriTimeline"></canvas></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: PREDICTIVE ANALYTICS & CHARTS -->
+    <div id="tab_analytics" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-4 shadow-xl">
+          <h3 class="text-sm font-bold text-white tracking-tight mb-3">Predictive Headcount Projections (T+30s & T+60s)</h3>
+          <div class="chart-container"><canvas id="chartForecastProjections_dup"></canvas></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-4 shadow-xl">
+          <h3 class="text-sm font-bold text-white tracking-tight mb-3">Real-Time Zone Headcount Dynamics (Rolling Timeline)</h3>
+          <div class="chart-container"><canvas id="chartHeadcountTimeline"></canvas></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-4 shadow-xl">
+          <h3 class="text-sm font-bold text-white tracking-tight mb-3">Pedestrian Flow Transfer Rates (Inflow vs Outflow / min)</h3>
+          <div class="chart-container"><canvas id="chartFlowRates"></canvas></div>
+        </div>
+        <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-4 shadow-xl">
+          <h3 class="text-sm font-bold text-white tracking-tight mb-3">Congestion Risk Index (CRI) Safety Threshold</h3>
+          <div class="chart-container"><canvas id="chartCriTimeline_dup"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: ALERT INCIDENT LOG -->
+    <div id="tab_alerts" class="tab-content hidden space-y-4">
+      <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-5 shadow-2xl">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-4 border-b border-slate-800">
+          <div>
+            <h3 class="text-base font-bold text-white tracking-tight">Predictive Bottleneck Incident Log & Resolution History</h3>
+            <p class="text-xs text-slate-400">Audit trail of AI-flagged congestion risks, time horizons, and event marshal resolutions.</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900/80 text-slate-400 font-semibold uppercase tracking-wider text-[10px] border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-3">Alert ID</th>
+                <th class="py-3 px-3">Time</th>
+                <th class="py-3 px-3">Zone</th>
+                <th class="py-3 px-3">Peak CRI</th>
+                <th class="py-3 px-3">Status</th>
+                <th class="py-3 px-3">AI Prediction & Mitigation</th>
+                <th class="py-3 px-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="incidentLogTableBody" class="divide-y divide-slate-800/60"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: SIMULATION & INJECTION CONTROLS -->
+    <div id="tab_simulation" class="tab-content hidden space-y-6">
+      <div class="rounded-xl border border-slate-800 bg-[#0c1220]/90 p-5 shadow-2xl">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800">
+          <div>
+            <h3 class="text-base font-bold text-white tracking-tight">Simulation & Synthetic Crowd Testing Control Deck</h3>
+            <p class="text-xs text-slate-400">Artificially inject crowd spikes, alter pedestrian velocities, and test predictive bottleneck triggers.</p>
+          </div>
+          <button onclick="resetSimulation()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold transition border border-slate-700">
+            Reset Simulation
+          </button>
+        </div>
+
+        <!-- Scenarios Grid -->
+        <div class="mb-6">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3">1. Select Crowd Dynamics Scenario</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div onclick="setScenario('NORMAL_EVENT_FLOW')" class="p-3.5 rounded-xl border bg-slate-900/60 border-slate-800/80 hover:border-slate-700 cursor-pointer">
+              <span class="text-xs font-bold text-white block mb-1">Normal Event Flow</span>
+              <p class="text-[11px] text-slate-400">Steady balanced circulation across concourses and amenities.</p>
+            </div>
+            <div onclick="setScenario('INFLOW_SPIKE_GATE_A')" class="p-3.5 rounded-xl border bg-slate-900/60 border-slate-800/80 hover:border-slate-700 cursor-pointer">
+              <span class="text-xs font-bold text-white block mb-1">Gate A Influx Spike</span>
+              <p class="text-[11px] text-slate-400">Surge of attendees queuing at primary ticketing and security turnstiles.</p>
+            </div>
+            <div onclick="setScenario('HALFTIME_FOOD_RUSH')" class="p-3.5 rounded-xl border bg-slate-900/60 border-slate-800/80 hover:border-slate-700 cursor-pointer">
+              <span class="text-xs font-bold text-white block mb-1">Halftime Food Court Rush</span>
+              <p class="text-[11px] text-slate-400">Mass migration from Main Arena into Food Court concessions.</p>
+            </div>
+            <div onclick="setScenario('EMERGENCY_EGRESS_BOTTLENECK')" class="p-3.5 rounded-xl border bg-slate-900/60 border-slate-800/80 hover:border-slate-700 cursor-pointer">
+              <span class="text-xs font-bold text-white block mb-1">Emergency Egress Bottleneck</span>
+              <p class="text-[11px] text-slate-400">Rapid evacuation surge compressing into the narrow South Exit Corridor.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Influx Spike Buttons & Speed -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4 border-t border-slate-800/80">
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">2. Artificial Inflow Spike Injection</h4>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="spikeZone('zone_food_court', 30)" class="px-3 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-300 text-xs font-bold transition">
+                +30 Food Court Surge
+              </button>
+              <button onclick="spikeZone('zone_gate_a', 40)" class="px-3 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-300 text-xs font-bold transition">
+                +40 Gate A Surge
+              </button>
+              <button onclick="spikeZone('zone_exit_corridor', 35)" class="px-3 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50 text-amber-300 text-xs font-bold transition">
+                +35 Exit Corridor Surge
+              </button>
+            </div>
+            <div class="pt-2">
+              <button onclick="setScenario('EMERGENCY_EGRESS_BOTTLENECK')" class="w-full py-2.5 px-4 rounded-lg bg-gradient-to-r from-rose-700 to-rose-600 hover:from-rose-600 hover:to-rose-500 text-white text-xs font-bold transition shadow-lg glow-red">
+                TRIGGER CRITICAL BOTTLENECK TEST (&gt;85% CRI FORECAST)
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300">3. Simulation Clock Multiplier</h4>
+            <div class="flex items-center gap-2">
+              <button onclick="setSpeed(0.5)" data-speed="0.5" class="speed-btn flex-1 py-1.5 rounded text-xs font-mono font-bold transition border bg-slate-900 border-slate-800 text-slate-400">0.5x</button>
+              <button onclick="setSpeed(1.0)" data-speed="1.0" class="speed-btn flex-1 py-1.5 rounded text-xs font-mono font-bold transition border bg-cyan-600 border-cyan-500 text-white">1.0x</button>
+              <button onclick="setSpeed(1.5)" data-speed="1.5" class="speed-btn flex-1 py-1.5 rounded text-xs font-mono font-bold transition border bg-slate-900 border-slate-800 text-slate-400">1.5x</button>
+              <button onclick="setSpeed(2.0)" data-speed="2.0" class="speed-btn flex-1 py-1.5 rounded text-xs font-mono font-bold transition border bg-slate-900 border-slate-800 text-slate-400">2.0x</button>
+              <button onclick="setSpeed(3.0)" data-speed="3.0" class="speed-btn flex-1 py-1.5 rounded text-xs font-mono font-bold transition border bg-slate-900 border-slate-800 text-slate-400">3.0x</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-slate-800/80 bg-[#090d18] py-3 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-between gap-2">
+      <span>CrowdEco Standalone Safety Engine • Kinetic Multi-Zone Predictive Model</span>
+      <div class="flex items-center gap-3 font-mono">
+        <span>No Node.js / node_modules Required</span>
+        <span>Runs on any Basic Live Server</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
