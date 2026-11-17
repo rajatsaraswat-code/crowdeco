@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CrowdEco | Predictive Crowd Management & Bottleneck Early-Warning System",
+  title: "Campus Sentinel | Predictive Crowd Management & Bottleneck Early-Warning System",
   description: "Real-time pedestrian tracking, velocity-vector movement calculation, and sub-second predictive congestion forecasting.",
 };
 

@@ -1,5 +1,5 @@
 """
-CrowdEco Configuration:
+Campus Sentinel Configuration:
 Zone definitions, threshold constants, and predictive engine parameters.
 """
 from typing import Dict, Any, List

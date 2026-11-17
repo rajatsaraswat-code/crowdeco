@@ -1,6 +1,6 @@
-# 🏟️ CrowdEco - Predictive Crowd Management & Early-Warning System
+# 🏟️ Campus Sentinel - Predictive Crowd Management & Early-Warning System
 
-**CrowdEco** is a production-ready predictive crowd safety application. It features real-time crowd dynamics, pedestrian tracking, velocity-vector movement calculation ($\vec{v}$), and an automated **predictive congestion engine** that warns operators **30 to 60 seconds *before* critical bottlenecks manifest**.
+**Campus Sentinel** is a production-ready predictive crowd safety application. It features real-time crowd dynamics, pedestrian tracking, velocity-vector movement calculation ($\vec{v}$), and an automated **predictive congestion engine** that warns operators **30 to 60 seconds *before* critical bottlenecks manifest**.
 
 This version includes a **zero-dependency, standard HTML/CSS/JavaScript implementation** that runs instantly in any browser or with any basic live server without needing `node_modules` or a complex dev server.
 
@@ -8,7 +8,7 @@ This version includes a **zero-dependency, standard HTML/CSS/JavaScript implemen
 
 ## ⚡ Instant Run (No Node.js or npm Required)
 
-You have multiple instant ways to view and run CrowdEco:
+You have multiple instant ways to view and run Campus Sentinel:
 
 ### Option 1: Direct File Open (Zero Servers Needed)
 Simply double-click **`index.html`** in your File Explorer, or open it directly in Chrome / Edge / Firefox.
@@ -36,7 +36,7 @@ python run_backend.py
 ## 📁 Clean Project Structure
 
 ```
-CrowdEco/
+Campus Sentinel/
 ├── index.html                # Standalone single-file build (HTML + CSS + JS bundled, ready to view instantly)
 ├── frontend_static/          # Modular standard web structure
 │   ├── index.html            # Main markup
@@ -56,7 +56,7 @@ CrowdEco/
 │   └── yolo_detector.py      # YOLO Bounding Box & Pedestrian Detector
 ├── start_live_server.bat     # One-click basic live server launcher (port 5000)
 ├── start_live_server.ps1     # One-click PowerShell live server launcher
-├── start_crowdeco.bat        # Dual service launcher (Backend + Frontend)
+├── start_campus-sentinel.bat        # Dual service launcher (Backend + Frontend)
 └── README.md
 ```
 

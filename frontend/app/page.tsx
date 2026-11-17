@@ -423,7 +423,7 @@ export default function Home() {
       {/* Footer System Status Bar */}
       <footer className="border-t border-slate-800/80 bg-[#090d18] py-3 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-wrap items-center justify-between gap-2">
-          <span>CrowdEco Autonomous Safety Engine • Powered by Next.js, FastAPI & OpenCV/YOLO Vector Field</span>
+          <span>Campus Sentinel Autonomous Safety Engine • Powered by Next.js, FastAPI & OpenCV/YOLO Vector Field</span>
           <div className="flex items-center gap-3 font-mono">
             <span>Latency: ~12ms</span>
             <span>Spatial Model: 2nd-order Taylor Kinetic Projection</span>

@@ -1,5 +1,5 @@
 /**
- * CrowdEco - Predictive Crowd Dynamics & Congestion Warning Engine
+ * Campus Sentinel - Predictive Crowd Dynamics & Congestion Warning Engine
  * Standalone Client-Side Application Script
  * Clean SVG-based UI without fragile emoji characters to prevent encoding glitches.
  */

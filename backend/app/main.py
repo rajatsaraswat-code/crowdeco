@@ -1,5 +1,5 @@
 """
-CrowdEco FastAPI Application:
+Campus Sentinel FastAPI Application:
 Main entry point orchestrating WebSocket streaming, ML analytics,
 and REST endpoints for predictive crowd management.
 """
@@ -48,7 +48,7 @@ async def lifespan(app: FastAPI):
         pass
 
 app = FastAPI(
-    title="CrowdEco - Predictive Crowd Management API",
+    title="Campus Sentinel - Predictive Crowd Management API",
     description="Real-time multi-zone crowd analytics, vector-flow tracking, and predictive bottleneck engine.",
     version="1.0.0",
     lifespan=lifespan
@@ -72,7 +72,7 @@ app.include_router(routes_websocket.router)
 @app.get("/")
 def root():
     return {
-        "app": "CrowdEco Predictive Crowd Management API",
+        "app": "Campus Sentinel Predictive Crowd Management API",
         "status": "ONLINE",
         "version": "1.0.0",
         "endpoints": {
